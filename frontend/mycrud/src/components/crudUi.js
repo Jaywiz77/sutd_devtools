@@ -19,13 +19,14 @@ const Card = styled.div`
     border:0px solid white;
     border-radius:3px;
     display:flex;
-    box-shadow:2px 2px grey;
+    box-shadow:4px 4px darkblue;
     flex-direction:column;
     align-items:center;
     background-color:white;
     cursor: pointer;
     &:hover{
         background-color:#e0e0e0;
+        box-shadow:2px 2px darkblue;
     }
 `;
 

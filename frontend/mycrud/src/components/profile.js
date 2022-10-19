@@ -24,10 +24,13 @@ const Card = styled.div`
     border:0px solid white;
     border-radius:5px;
     display:flex;
-    box-shadow:2px 2px grey;
+    box-shadow:4px 4px darkblue;
     flex-direction:column;
     align-items:center;
     background-color:white;
+    &:hover{
+        box-shadow:4px 4px pink;
+    }
 
 `;
 
@@ -43,6 +46,12 @@ const EditBtn = styled.button`
     width:40%;
     margin:1px;
     text-align:center;
+    background-color:lightblue;
+    border:0;
+    cursor:pointer;
+    &:hover{
+        background-color:skyblue;
+    }
 `
 
 
@@ -50,12 +59,24 @@ const CompleteBtn = styled.button`
     width:40%;
     margin:1px;
     text-align:center;
+    background-color:lightgreen;
+    border:0;
+    &:hover{
+        background-color:limegreen;
+    }
+
 `
 
 const DeleteBtn = styled.button`
     width:40%;
     margin:1px;
     text-align:center;
+    background-color:pink;
+    border:0;
+    cursor:pointer;
+    &:hover{
+        background-color:#e579a3;
+    }
 `
 
 const InputBox = styled.input`

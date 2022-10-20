@@ -5,25 +5,11 @@ const app = express();
 
 const fs = require('fs');
 
-
-var dataString = "[";
-
 const readStore = () => {
-    fs.readFile('./data.txt', 'utf8', (err, store) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        for(x of store.split('\n')){
-            if(x){
-                dataString += x ;
-            }
-            
-        };
-        dataString = dataString.slice(0, -1) + "]";
-        data = JSON.parse(dataString);
-        return data;
-    });
+
+    let rawdata = fs.readFileSync('data.json');
+    let data = JSON.parse(rawdata);
+    return data;
 }
 var data = readStore();
 
@@ -37,24 +23,26 @@ var reset_data = [
     {'id':5,'name':'Yx','age':18,'gender':'Male','school':'SUTD','edit':false,'imgId':4},
     {'id':6,'name':'Hy','age':18,'gender':'Female','school':'NUS','edit':false,'imgId':5},
     {'id':7,'name':'Pam','age':18,'gender':'Female','school':'NUS','edit':false,'imgId':6},
-    {'id':8,'name':'Jard','age':18,'gender':'Male','school':'NTU','edit':false,'imgId':7},
+    {'id':8,'name':'Jar','age':18,'gender':'Male','school':'NTU','edit':false,'imgId':7},
     {'id':9,'name':'Tf','age':18,'gender':'Male','school':'NUS','edit':false,'imgId':8},
     {'id':10,'name':'Lx','age':18,'gender':'Female','school':'NUS','edit':false,'imgId':9},
-    {'id':11,'name':'Manda','age':18,'gender':'Female','school':'SMU','edit':false,'imgId':10}
+    {'id':11,'name':'Ada','age':18,'gender':'Female','school':'SMU','edit':false,'imgId':10}
 ];
 
 const saveData = (data) =>{
-    var file = fs.createWriteStream('./data.txt');
-    file.on('error', function(err) { /* error handling */ });
-    for (x of data){
-        file.write(JSON.stringify(x) + ',\n');
-    }
-    file.end();
+    let stringify = JSON.stringify(data);
+    fs.writeFileSync('data.json', stringify);
 }
 
 
 app.get('/api/getProfiles', (request, response) => {
+    response.send(data);
 
+});
+
+app.get('/api/resetProfiles', (request, response) => {
+    saveData(reset_data);
+    data = reset_data;
     response.send(data);
 
 });
@@ -77,12 +65,10 @@ app.post('/api/editProfile', (request, response) => {
     var toEdit = request.body;
     data = data.filter(element => element.id !== toEdit.profileId);
     data.push(toEdit);
-    console.log(request.body);
 });
 
 app.post('/api/deleteProfile', (request, response) => {
     var toDelete = request.body;
-    console.log(toDelete.profileId)
     data = data.filter(element => element.id !== toDelete.profileId)
     return 'success'
 });

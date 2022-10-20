@@ -13,7 +13,8 @@ const imgs = [
     'https://cdn.dribbble.com/users/1044993/screenshots/17146297/media/07d6b0b6aa9ffbe9af7adb9885c46dfb.png',
     'https://cdn.dribbble.com/users/1044993/screenshots/7836149/media/9fa76859ae905b4d44691714e7413b05.png?compress=1&resize=1000x750&vertical=top',
     'https://cdn.dribbble.com/users/1044993/screenshots/6268123/lady-mariachi_dribbble.png?compress=1&resize=400x300&vertical=top',
-    'https://cdn.dribbble.com/users/1044993/screenshots/5288556/media/0b1df0a531dde08353f2ba24422fc827.png?compress=1&resize=800x600&vertical=top'
+    'https://cdn.dribbble.com/users/1044993/screenshots/5288556/media/0b1df0a531dde08353f2ba24422fc827.png?compress=1&resize=800x600&vertical=top',
+    'https://cdn.dribbble.com/users/1044993/screenshots/11477781/media/fe6e1d5a4a690c932308546f6ccca989.png?compress=1&resize=1000x750&vertical=top'
 ]
 
 const Card = styled.div`
@@ -28,60 +29,62 @@ const Card = styled.div`
     flex-direction:column;
     align-items:center;
     background-color:white;
+    transition: box-shadow 0.3s ease-in-out;
     &:hover{
-        box-shadow:4px 4px pink;
+        box-shadow:7px 7px pink;
     }
+    &:hover{
+        animation: shake ${props => props.shake}s;
+        animation-iteration-count: infinite;
+    }
+    
+
+    @keyframes shake {
+        0% { transform: translate(1px, 1px) rotate(0deg); }
+        10% { transform: translate(-1px, -2px) rotate(-1deg); }
+        20% { transform: translate(-3px, 0px) rotate(1deg); }
+        30% { transform: translate(3px, 2px) rotate(0deg); }
+        40% { transform: translate(1px, -1px) rotate(1deg); }
+        50% { transform: translate(-1px, 2px) rotate(-1deg); }
+        60% { transform: translate(-3px, 1px) rotate(0deg); }
+        70% { transform: translate(3px, 1px) rotate(-1deg); }
+        80% { transform: translate(-1px, -1px) rotate(1deg); }
+        90% { transform: translate(1px, 2px) rotate(0deg); }
+        100% { transform: translate(1px, -2px) rotate(-1deg); }
+      }
 
 `;
 
 const Profile = styled.img`
     width:100%;
-    margin-bottom:5px;
+    margin-bottom:2px;
     border-radius:5px 5px 0px 0px;
+
 
     
 `
 
-const EditBtn = styled.button`
+const Btn = styled.button`
     width:40%;
     margin:1px;
     text-align:center;
-    background-color:lightblue;
+    background-color:${props => props.bthTheme.color};
     border:0;
+    border-radius:3px;
     cursor:pointer;
     &:hover{
-        background-color:skyblue;
-    }
-`
-
-
-const CompleteBtn = styled.button`
-    width:40%;
-    margin:1px;
-    text-align:center;
-    background-color:lightgreen;
-    border:0;
-    &:hover{
-        background-color:limegreen;
-    }
-
-`
-
-const DeleteBtn = styled.button`
-    width:40%;
-    margin:1px;
-    text-align:center;
-    background-color:pink;
-    border:0;
-    cursor:pointer;
-    &:hover{
-        background-color:#e579a3;
+        background-color:${props => props.bthTheme.hover};
     }
 `
 
 const InputBox = styled.input`
     width:70%;
     text-align:center;
+    background-color:#F0F0F0;
+    border:0px;
+    height:18px;
+    margin:1px;
+
 `
 
 
@@ -103,6 +106,12 @@ export default function Profile_card(props) {
 
     const onSchoolChange = (e) => {
         updateInfo({...info,school:e.target.value});
+    }
+
+    const onImageChange = () => {
+        const new_id = (info.imgId + 1)% imgs.length;
+        
+        updateInfo({...info,imgId:new_id});
     }
 
     const updateProfile = () => {
@@ -175,27 +184,27 @@ export default function Profile_card(props) {
 
 
     return profile.edit == false ? (
-        <Card >
+        <Card shake='1'>
             <Profile src={imgs[profile.imgId]}/>
             <label>{profile.name}</label>
             <label>{profile.age}</label>
             <label>{profile.gender}</label>
             <label>{profile.school}</label>
             <div style={{display:'flex',width:"100%",justifyContent:"center"}}>
-            <EditBtn onClick={editProfile}>Edit</EditBtn>
-            <DeleteBtn onClick={deleteProfile}>Delete</DeleteBtn>
+            <Btn onClick={editProfile} bthTheme={{color:"lightblue",hover:"skyblue"}}>Edit</Btn>
+            <Btn onClick={deleteProfile} bthTheme={{color:"pink",hover:"#e579a3"}}>Delete</Btn>
             </div>
             
         </Card>
         
-    ) : (<Card>
-        <Profile src={imgs[info.imgId]}/>
+    ) : (<Card shake='0'>
+        <Profile onClick={onImageChange} style={{"cursor":"pointer"}} src={imgs[info.imgId]}/>
         <InputBox name='name' placeholder="name" value={info.name} onChange={onNameChange}/>
         <InputBox name='age' placeholder="age" value={info.age} onChange={onAgeChange}/>
         <InputBox name='gender'placeholder="gender" value={info.gender} onChange={onGenderChange}/>
         <InputBox name='school' placeholder="school" value={info.school} onChange={onSchoolChange}/>
         <div style={{display:'flex',width:"100%",justifyContent:"center"}}>
-        <CompleteBtn onClick={updateProfile}>Done</CompleteBtn>
+        <Btn onClick={updateProfile} bthTheme={{color:"lightgreen",hover:"limegreen"}}>Done</Btn>
         </div>
         
     </Card>)

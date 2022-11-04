@@ -80,6 +80,6 @@ Possible Vulnerabilities
   - Currently, there isn't any data validation done when a user edits or inserts data. So it is entirely possible to insert malicious injection codes when making post requests.
   - One possible fix is to validate the fields and prevent adding of special characters. 
 
-3. Authentication
+3. Authorization vulnerabilities
   - Currently, everyone accessing the page can perform all available crud requests. Hence, an attacker can wipe the data or edit the character cards to show false information.
   - One possible fix is to set up an authentication page and ensure users are authenticated before they are allowed to add and edit character cards.

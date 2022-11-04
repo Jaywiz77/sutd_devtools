@@ -37,6 +37,7 @@ Steps to set up
   ````
   
 3. Install nginx
+  nginx is a all in one tool that handles web requests. When a user makes a requests to the server, nginx will redirect it to the appropriate place to be processed
   ````
   sudo apt-get update
   sudo apt-get install nginx

@@ -37,6 +37,7 @@ Steps to set up
   ````
   
 3. Install nginx
+  
   nginx is a all in one tool that handles web requests. When a user makes a requests to the server, nginx will redirect it to the appropriate place to be processed
   ````
   sudo apt-get update
@@ -71,7 +72,7 @@ Steps to set up
   ````
   
 Possible Vulnerabilities
-1. DDOS
+1. DDOS (distributed denial of service)
   - While nginx is being used, load balancing isn't set up properly. If a lot of requests are made at the same time, the server might crash. This is also a single point of failure as if the server goes down, the entire service will also be down.
   - One possible fix to this is to deploy front-end containers across a cluster of servers, then setting up a load balancer in front of the containers will help to distribute the traffic efficiently and be more resilient to attacks It also helps to eliminate single-point of failure, as even if a single server goes down, traffic can still be directed to other live servers.
 
